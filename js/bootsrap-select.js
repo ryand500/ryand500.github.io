@@ -1,5 +1,5 @@
 //////////////////////////////////* Select Picker Methods *//////////////////////////////////
-
+$('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, newValue, previousValue) {	
 $('#feature-selectpicker').selectpicker().val().length; //returns number of elements selected
 $('#feature-selectpicker').val() - returns array of elements selected
 $('#company-selectpicker').find('option:selected').length

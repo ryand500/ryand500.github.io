@@ -2,8 +2,7 @@
 
 
 //Global variables
-var dropDowns = false; //drop downs used
-var noFeatures = 0;
+var noFeatures = 0; //Unique number of features in table
 
 //////////////////////////////////* Functions *///////////////////////////////////
 
@@ -180,7 +179,7 @@ var noFeatures = 0;
 
 			var erpSelect = $('#erp-selectpicker');
 			for (i = 0; i < uniqueErp.length; i += 1) {
-				erpSelect.append('<option value="'+'p'+uniqueErp[i]+'">'+uniqueErp[i]+'</option>'); // selected=""
+				erpSelect.append('<option value="'+uniqueErp[i]+'">'+uniqueErp[i]+'</option>'); // selected=""
 			}
 
 			$("#erp-selectpicker").selectpicker("refresh");	
@@ -197,9 +196,6 @@ var noFeatures = 0;
 
 			//Add company names
 			addCompanyNames();
-
-			//Add ERP Systems
-			
 
 			//Flag images
 			addFlags();
@@ -223,8 +219,7 @@ $(window).on('load', function () {
 var old_array =[];
 //Filter table columns by company group from checkbox
 $('input:checkbox').on('change', function(e) {
-	
-	var allSelected = $('input[name^="chk"]').length;
+
 	var numberSelected = $('input[name^="chk"]:checked').length; // How many checkboxes are checked
 	var ischecked = e.target.checked;
 
@@ -279,7 +274,7 @@ $('input:checkbox').on('change', function(e) {
 $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, newValue, oldValue)  {
 
 	var selected = $('#company-selectpicker').selectpicker().val().length; //number of elements selected	
-	var total = $('#company-selectpicker').find('option').length/2; //Number of elements in dropdown
+	var total = $('#company-selectpicker').find('option').length/2; //Number of elements in dropdown because we of the add companies script we have to divide by 2
 	var numberCols = document.getElementById("myTable").rows[0].cells.length;
 
 	//Deselect ALL or nothing selected
@@ -311,7 +306,7 @@ $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 });
 
 //Filter table rows by feature select
-$('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, newValue, previousValue) {		
+$('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex) {		
 		
 	var selected = $('#feature-selectpicker').selectpicker().val().length; //number of elements selected	
 	//Deselect ALL
@@ -335,6 +330,22 @@ $('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 	}
 });
 
+//Filter table colums by ERP select
+$('#erp-selectpicker').on('changed.bs.select', function (e) {		
+	
+	tableView();
+	var last = '.c'+e.target.value;
+
+	//Set dropdowns
+	$('#company-selectpicker').selectpicker('deselectAll');
+	$('input:checkbox').removeAttr('checked');
+
+	$(last).each(function () {
+		var col = $(this).index()+1;
+		$('th:nth-child('+col+'), tr td:nth-child('+col+')').show(); 
+	});
+});
+
 //Reset button
 $('#button-reset').on( "click", function() { 
 	tableView();
@@ -350,13 +361,18 @@ $('#button-reset').on( "click", function() {
 //Initial view of table on load
 function tableView () {
 
-	//$(trow[trow.length-3]).hide();
+	//Set column 1 width
+	//$('table tr td').eq(0).css('width','150px');
+
+	//Hide everything
 	$('tr th').hide();
 	$('tr td').hide();
 	
 	// selects both table header and table data cells from the first and second column of the table
 	$('table th:nth-child(1), table td:nth-child(1)').show();
 	$('table th:nth-child(2), table td:nth-child(2)').show();
+	
+	//Check and uncheck select pickers
 	$('#feature-selectpicker').selectpicker('selectAll');
 	
 	//Set fixed width for Category and Description
