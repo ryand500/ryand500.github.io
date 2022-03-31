@@ -2,7 +2,7 @@
 
 
 //Global variables
-var dropDowns = false; //drop downs used
+var erpDropDown = false; //drop downs used
 var noFeatures = 0;
 
 //////////////////////////////////* Functions *///////////////////////////////////
@@ -96,9 +96,8 @@ var noFeatures = 0;
 		getCSV.call(this).then(function(response){
 			var allRows = response.split(/\r?\n|\r/).filter(isNotEmpty);
 			var categoryData = [];
-			var unique = []; //Unique category items
-					
-		  
+			var erpSystems = [];
+				  
 			var table = '<table class="table table-striped table-bordered" id="myTable">';
 	        for (var singleRow = 0; singleRow < allRows.length; singleRow++) {
 	            if (singleRow === 0) {
@@ -141,8 +140,11 @@ var noFeatures = 0;
 					
 					if (singleRow > 0 && rowCell === 0){
 						categoryData.push(rowNumber[rowCell]);								
+					}
+					else if (singleRow === allRows.length-3 && rowCell > 1){
+						erpSystems.push(rowNumber[rowCell]);
 					};
-
+					
 				}
 	            if (singleRow === 0) {
 	                table += '</tr>';
@@ -153,8 +155,8 @@ var noFeatures = 0;
 	            }
 	        }
 
-			//Populate category dropdown
-			unique = categoryData.filter(function(item, i, arr) {
+		//Populate category dropdown/////////////////////////////////////////////////////////////
+			var unique = categoryData.filter(function(item, i, arr) {
 				return i == arr.indexOf(item);
 			});
 			
@@ -163,13 +165,26 @@ var noFeatures = 0;
 			//update global variable
 			noFeatures = unique.length;
 
-			var yourSelect = $('#feature-selectpicker');
+			var featureSelect = $('#feature-selectpicker');
 			for (i = 0; i < unique.length; i += 1) {
-				yourSelect.append('<option value="'+'p'+unique[i]+'">'+unique[i]+'</option>'); // selected=""
+				featureSelect.append('<option value="'+'p'+unique[i]+'">'+unique[i]+'</option>'); // selected=""
 			}
 
 			$("#feature-selectpicker").selectpicker("refresh");
 
+		//Populate ERP dropdown/////////////////////////////////////////////////
+			var uniqueErp = erpSystems.filter(function(item, i, arr) {
+				return i == arr.indexOf(item);
+			});
+			
+
+			var erpSelect = $('#erp-selectpicker');
+			for (i = 0; i < uniqueErp.length; i += 1) {
+				erpSelect.append('<option value="'+uniqueErp[i]+'">'+uniqueErp[i]+'</option>'); // selected=""
+			}
+
+			$("#erp-selectpicker").selectpicker("refresh");	
+			
 			//Closing tags
 	        table += '</tbody>';
 	        table += '</table>';
@@ -205,8 +220,7 @@ $(window).on('load', function () {
 var old_array =[];
 //Filter table columns by company group from checkbox
 $('input:checkbox').on('change', function(e) {
-	
-	var allSelected = $('input[name^="chk"]').length;
+
 	var numberSelected = $('input[name^="chk"]:checked').length; // How many checkboxes are checked
 	var ischecked = e.target.checked;
 
@@ -261,9 +275,10 @@ $('input:checkbox').on('change', function(e) {
 $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, newValue, oldValue)  {
 
 	var selected = $('#company-selectpicker').selectpicker().val().length; //number of elements selected	
-	var total = $('#company-selectpicker').find('option').length/2; //Number of elements in dropdown
+	var total = $('#company-selectpicker').find('option').length/2; //Number of elements in dropdown because we of the add companies script we have to divide by 2
 	var numberCols = document.getElementById("myTable").rows[0].cells.length;
 
+	console.log(erpDropDown);
 	//Deselect ALL or nothing selected
 	if (selected === 0) {	
 		for (var i = 3; i < numberCols+1; i++) {
@@ -293,7 +308,7 @@ $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 });
 
 //Filter table rows by feature select
-$('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, newValue, previousValue) {		
+$('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex) {		
 		
 	var selected = $('#feature-selectpicker').selectpicker().val().length; //number of elements selected	
 	//Deselect ALL
@@ -317,9 +332,30 @@ $('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 	}
 });
 
+//Filter table colums by ERP select
+$('#erp-selectpicker').on('changed.bs.select', function (e) {		
+	
+	tableView();
+	var last = '.c'+e.target.value;
+
+	//Set dropdowns
+	$('#company-selectpicker').selectpicker('deselectAll');
+	$('input:checkbox').removeAttr('checked');
+
+	erpDropDown = true;	
+
+	$(last).each(function () {
+		var col = $(this).index()+1;
+		$('th:nth-child('+col+'), tr td:nth-child('+col+')').show(); 
+	});
+});
+
 //Reset button
 $('#button-reset').on( "click", function() { 
-	console.log("reset");
+	tableView();
+	$(".group-select").prop("checked", false);
+	$('#company-selectpicker').selectpicker('deselectAll');
+	$('#erp-selectpicker').selectpicker('deselectAll');
 });
 
 
@@ -329,23 +365,28 @@ $('#button-reset').on( "click", function() {
 //Initial view of table on load
 function tableView () {
 
-	//$(trow[trow.length-3]).hide();
+	//Set column 1 width
+	//$('table tr td').eq(0).css('width','150px');
+
+	//Hide everything
 	$('tr th').hide();
 	$('tr td').hide();
 	
 	// selects both table header and table data cells from the first and second column of the table
 	$('table th:nth-child(1), table td:nth-child(1)').show();
 	$('table th:nth-child(2), table td:nth-child(2)').show();
+	
+	//Check and uncheck select pickers
 	$('#feature-selectpicker').selectpicker('selectAll');
 	
 	//Set fixed width for Category and Description
 	$('table th:nth-child(2), table td:nth-child(2)').addClass('fixed');
 	
 	//hide bottom rows
-	// var trow = $('#myTable tr');
-	// $('tr:last').hide(); 
-	// $(trow[trow.length-2]).hide();
-	//$(trow[trow.length-3]).hide();
+	var trow = $('#myTable tr');
+	$('tr:last').hide(); 
+	$(trow[trow.length-2]).hide();
+	$(trow[trow.length-3]).hide();
 };
 
 //Restripe table after filter use
