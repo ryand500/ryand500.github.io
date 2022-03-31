@@ -2,8 +2,7 @@
 
 
 //Global variables
-var erpDropDown = false; //drop downs used
-var noFeatures = 0;
+var noFeatures = 0; //Unique number of features in table
 
 //////////////////////////////////* Functions *///////////////////////////////////
 
@@ -278,7 +277,6 @@ $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 	var total = $('#company-selectpicker').find('option').length/2; //Number of elements in dropdown because we of the add companies script we have to divide by 2
 	var numberCols = document.getElementById("myTable").rows[0].cells.length;
 
-	console.log(erpDropDown);
 	//Deselect ALL or nothing selected
 	if (selected === 0) {	
 		for (var i = 3; i < numberCols+1; i++) {
@@ -341,8 +339,6 @@ $('#erp-selectpicker').on('changed.bs.select', function (e) {
 	//Set dropdowns
 	$('#company-selectpicker').selectpicker('deselectAll');
 	$('input:checkbox').removeAttr('checked');
-
-	erpDropDown = true;	
 
 	$(last).each(function () {
 		var col = $(this).index()+1;
