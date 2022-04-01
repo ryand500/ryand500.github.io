@@ -333,8 +333,11 @@ $('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex) {
 //Filter table colums by ERP select
 $('#erp-selectpicker').on('changed.bs.select', function (e) {		
 	
+
+	$(".group-select").prop("checked", false);
 	tableView();
 	var last = '.c'+e.target.value;
+	var arr = [];
 
 	//Set dropdowns
 	$('#company-selectpicker').selectpicker('deselectAll');
@@ -342,9 +345,16 @@ $('#erp-selectpicker').on('changed.bs.select', function (e) {
 
 	$(last).each(function () {
 		var col = $(this).index()+1;
+		arr.push(($('tr th:nth-child('+col+')').html().slice(0,4))); 
 		$('th:nth-child('+col+'), tr td:nth-child('+col+')').show(); 
 	});
+
+	for (var i=0; i<arr.length; i++){
+		$('#company-selectpicker').selectpicker('val', arr);
+	};	
+	$('th:nth-child(2), tr td:nth-child(2)').show();
 });
+
 
 //Reset button
 $('#button-reset').on( "click", function() { 
