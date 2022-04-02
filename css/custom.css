@@ -25,7 +25,7 @@
 }
 
 .redicon {
-    color:#e21f26;
+    color:#e30613;
 }
 
 .blackicon {
@@ -91,4 +91,26 @@ a#backToTop {
     background-size: cover;
     background-repeat: no-repeat;
     z-index: 1;
+}
+
+a#backToTop:hover ,
+.icon-arrow:focus {
+  filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.btn-outline-danger {
+    color: #e30613;
+    border-color: #e30613;
+}
+
+.btn-outline-danger:hover {
+    color: white;
+    background-color: #e30613;
+    border-color: #e30613;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #4c4a49 !important;
 }

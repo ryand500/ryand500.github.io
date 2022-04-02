@@ -416,7 +416,7 @@ function tableView () {
 //Restripe table after filter use
 function stripe () {
 	$("tr:visible").each(function (index) {
-		$(this).css("background-color", !!(index & 1)? "rgba(0,0,0,.05)" : "rgba(0,0,0,0)");
+		$(this).css("background-color", !!(index & 1)? "rgba(236,236,236,0.6)" : "rgba(236,236,236,0)");
 	});
 };
 
