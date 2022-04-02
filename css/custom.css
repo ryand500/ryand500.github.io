@@ -76,3 +76,19 @@ td.col-1, th.col-1 {
   
   td.col-2, th.col-2 {
     width: 16%; }
+
+a#backToTop {
+    width:40px;
+    height:40px;
+    opacity:0.5;
+    position:fixed;
+    bottom:20px;
+    left:97%;
+    display:none;
+    text-indent:-10000px;
+    outline:none !important;
+    background-image: url('/images/arrow-up-square-fill.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+}

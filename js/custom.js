@@ -3,6 +3,8 @@
 
 //Global variables
 var noFeatures = 0; //Unique number of features in table
+var startingCol = 2; //Category column and feature column in array
+var jCol = startingCol +1; //Starting column in JQuery
 
 //////////////////////////////////* Functions *///////////////////////////////////
 
@@ -11,7 +13,7 @@ var noFeatures = 0; //Unique number of features in table
 (function(){
 
 	// Constructor method
-	this.CsvToTable = function(){
+	this.csvTable = function(){
 		this.csvFile = null;
 
 		// Create options by extending defaults with the passed in arugments
@@ -21,7 +23,7 @@ var noFeatures = 0; //Unique number of features in table
 
 	}
 
-	CsvToTable.prototype.run = function() {
+	csvTable.prototype.run = function() {
 		return buildTable.call(this);
 	}
 
@@ -75,7 +77,7 @@ var noFeatures = 0; //Unique number of features in table
 	function addCompanyNames(){	
 		var table = document.getElementById('myTable');
 		var row = table.rows[table.rows.length-2]; //Second last row contains company names
-			for (var i = 2, col; col = row.cells[i]; i++){
+			for (var i = startingCol, col; col = row.cells[i]; i++){
 				$('#company-selectpicker option:nth-child('+(i-1)+')').append('<option class="companyName"> | '+row.cells[i].innerText+'</option>'); //var select = '#bs-select-1-'+(i-2);
 			}
 		$("#company-selectpicker").selectpicker("refresh");
@@ -85,7 +87,7 @@ var noFeatures = 0; //Unique number of features in table
 	function addFlags() {
 		var table = document.getElementById('myTable');
 		var row = table.rows[0];
-			for (var i = 2, col; col = row.cells[i]; i++) {
+			for (var i = startingCol, col; col = row.cells[i]; i++) {
 				col.innerHTML +=("<br><td><img src='images/"+col.innerText+".png' class='flag'</td>"); //"${rowNumber[rowCell]}"
 			}
 	}
@@ -140,6 +142,7 @@ var noFeatures = 0; //Unique number of features in table
 					if (singleRow > 0 && rowCell === 0){
 						categoryData.push(rowNumber[rowCell]);								
 					}
+					//Add erp system names to array
 					else if (singleRow === allRows.length-3 && rowCell > 1){
 						erpSystems.push(rowNumber[rowCell]);
 					};
@@ -279,16 +282,16 @@ $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 
 	//Deselect ALL or nothing selected
 	if (selected === 0) {	
-		for (var i = 3; i < numberCols+1; i++) {
+		for (var i = jCol; i < numberCols+1; i++) {
 			$('table th:nth-child('+i+'), table td:nth-child('+i+')').hide();
 		}
-		$(".group-select").prop( "checked", false );
+		$(".group-select").prop("checked", false);
 	}
 	
 	//Select ALL
 	else if (selected === total){
-		$(".group-select").prop( "checked", true );
-		for (var i = 3; i < numberCols+1; i++) {
+		$(".group-select").prop("checked", true);
+		for (var i = jCol; i < numberCols+1; i++) {
 			$('table th:nth-child('+i+'), table td:nth-child('+i+')').show();
 		}
 	}
@@ -300,8 +303,8 @@ $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 	else {
 
 		//Toggle view based on selection
-		$('tr td:nth-child('+(clickedIndex+3)+')').toggle();  
-		$('tr th:nth-child('+(clickedIndex+3)+')').toggle();
+		$('tr td:nth-child('+(clickedIndex+jCol)+')').toggle();  
+		$('tr th:nth-child('+(clickedIndex+jCol)+')').toggle();
 	}
 });
 
@@ -364,6 +367,21 @@ $('#button-reset').on( "click", function() {
 	$('#erp-selectpicker').selectpicker('deselectAll');
 });
 
+
+//Scroll to top button
+$(document).ready(function($){
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 50) {
+            $('#backToTop').fadeIn('slow');
+        } else {
+            $('#backToTop').fadeOut('slow');
+        }
+    });
+    $('#backToTop').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 500);
+        return false;
+    });
+});
 
 //////////////////////////////////* Displays *///////////////////////////////////
 
