@@ -40,3 +40,19 @@ const pageAccessedByReload = (
   if(pageAccessedByReload){
 
   };
+
+  
+
+/* Popover how to activate feature
+
+https://jsfiddle.net/9P64a/
+
+
+*/
+
+					
+//Add popover text
+if (rowCell === 1 && singleRow>0) {
+	//$("tr td:nth-child(2)" ).append(`<a id="popoverData" class="btn" href="#" data-content="Popover with data-trigger" rel="popover" data-placement="bottom" data-original-title="Title" data-trigger="hover">Popover with data-trigger</a>`);
+	//console.log($(this).closest('td').prev());//.append(`<a id="popoverData" class="btn" href="#" data-content="Popover with data-trigger" rel="popover" data-placement="bottom" data-original-title="Title" data-trigger="hover">Popover with data-trigger</a>`);
+}

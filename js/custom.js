@@ -138,7 +138,7 @@ var jCol = startingCol +1; //Starting column in JQuery
 						else {table += rowNumber[rowCell];}
 						table += '</td>';	
 					}
-					
+
 					if (singleRow > 0 && rowCell === 0){
 						categoryData.push(rowNumber[rowCell]);								
 					}
@@ -365,6 +365,7 @@ $('#button-reset').on( "click", function() {
 	$(".group-select").prop("checked", false);
 	$('#company-selectpicker').selectpicker('deselectAll');
 	$('#erp-selectpicker').selectpicker('deselectAll');
+	$('.selectpicker').selectpicker('refresh');
 });
 
 
