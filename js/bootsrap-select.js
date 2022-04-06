@@ -25,7 +25,12 @@ var bar= $(#foo).find("option:selected").val();
 // Set the "selected" value of the <select>.
 $('select[name=selValue]').val(sVal);
 
-
+// //Update title of erp select picker
+$(document).ready(function() {
+	$('#erp-selectpicker').selectpicker({
+		title: 'New title'
+	  });
+});
 
 //////////////////////////////////* Page Refresh *///////////////////////////////////
 

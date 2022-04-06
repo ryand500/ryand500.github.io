@@ -5,6 +5,7 @@
 var noFeatures = 0; //Unique number of features in table
 var startingCol = 2; //Category column and feature column in array
 var jCol = startingCol +1; //Starting column in JQuery
+var erpFilterUsed = false; //Checks to see if the ERP filter has been used
 
 //////////////////////////////////* Functions *///////////////////////////////////
 
@@ -181,9 +182,12 @@ var jCol = startingCol +1; //Starting column in JQuery
 			
 
 			var erpSelect = $('#erp-selectpicker');
+			erpSelect.append('<option data-hidden="true" value="no-erp" default>No ERP Selected</option>');
+		
 			for (i = 0; i < uniqueErp.length; i += 1) {
 				erpSelect.append('<option value="'+uniqueErp[i]+'">'+uniqueErp[i]+'</option>'); // selected=""
 			}
+
 
 			$("#erp-selectpicker").selectpicker("refresh");	
 			
@@ -271,6 +275,7 @@ $('input:checkbox').on('change', function(e) {
 		};	
 		$('th:nth-child(2), tr td:nth-child(2)').show();
 	}
+	resetErpFilter();
 });
 
 //Filter table columns by company select
@@ -306,6 +311,12 @@ $('#company-selectpicker').on('changed.bs.select', function (e, clickedIndex, is
 		$('tr td:nth-child('+(clickedIndex+jCol)+')').toggle();  
 		$('tr th:nth-child('+(clickedIndex+jCol)+')').toggle();
 	}
+
+	if (erpFilterUsed === true) {
+		resetErpFilter ();
+		erpFilterUsed == false;
+	};
+
 });
 
 //Filter table rows by feature select
@@ -335,7 +346,7 @@ $('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex) {
 
 //Filter table colums by ERP select
 $('#erp-selectpicker').on('changed.bs.select', function (e) {		
-	
+	erpFilterUsed = false;
 
 	$(".group-select").prop("checked", false);
 	tableView();
@@ -356,6 +367,8 @@ $('#erp-selectpicker').on('changed.bs.select', function (e) {
 		$('#company-selectpicker').selectpicker('val', arr);
 	};	
 	$('th:nth-child(2), tr td:nth-child(2)').show();
+
+	erpFilterUsed = true;
 });
 
 
@@ -419,6 +432,12 @@ function stripe () {
 	$("tr:visible").each(function (index) {
 		$(this).css("background-color", !!(index & 1)? "rgba(236,236,236,0.6)" : "rgba(236,236,236,0)");
 	});
+};
+
+//Reset the erp filter
+function resetErpFilter () {
+	$("#erp-selectpicker").val('no-erp');
+	$("#erp-selectpicker").selectpicker('refresh');
 };
 
 //////////////////////////////////* End *///////////////////////////////////
