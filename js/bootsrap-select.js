@@ -2,6 +2,7 @@
 $('#feature-selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, newValue, previousValue) {	
 $('#feature-selectpicker').selectpicker().val().length; //returns number of elements selected
 $('#feature-selectpicker').val() - returns array of elements selected
+$("#dataPicker").val('default');
 $('#company-selectpicker').find('option:selected').length
 $('#feature-selectpicker').text() - returns text value of all elemenents in array
 $('#feature-selectpicker').selectpicker('selectAll');
