@@ -240,8 +240,13 @@ $('input:checkbox').on('change', function(e) {
 
 	if (numberSelected === 0) {
 		$('#company-selectpicker').selectpicker('deselectAll');
-		$('#company-selectpicker').selectpicker('refresh');;
+		$('#company-selectpicker').selectpicker('refresh');
 		tableView();
+	}
+
+	//All checkboxes selected
+	else if ($('input[name^="chk"]').length == numberSelected) {
+		$('#company-selectpicker').selectpicker('selectAll');
 	}
 
 	else {
