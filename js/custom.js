@@ -89,7 +89,11 @@ var erpFilterUsed = false; //Checks to see if the ERP filter has been used
 		var table = document.getElementById('myTable');
 		var row = table.rows[0];
 			for (var i = startingCol, col; col = row.cells[i]; i++) {
-				col.innerHTML +=("<br><td><img src='images/"+col.innerText+".png' class='flag'</td>"); //"${rowNumber[rowCell]}"
+				try {
+					col.innerHTML +=("<br><td><img src='images/"+col.innerText+".png' class='flag'</td>"); //"${rowNumber[rowCell]}"
+				} catch (error) {
+					console.log("no flag image");
+				}
 			}
 	}
 	
@@ -247,6 +251,7 @@ $('input:checkbox').on('change', function(e) {
 	//All checkboxes selected
 	else if ($('input[name^="chk"]').length == numberSelected) {
 		$('#company-selectpicker').selectpicker('selectAll');
+		console.log("All selected");
 	}
 
 	else {
@@ -265,6 +270,7 @@ $('input:checkbox').on('change', function(e) {
 				}
 			});
 		}
+		console.log("else selected");
 		//Compare 2 Arrays
 		var diff = $(old_array).not(new_array).get();
 		if (!ischecked){
@@ -274,6 +280,7 @@ $('input:checkbox').on('change', function(e) {
 		}
 
 		old_array = new_array;
+		console.log(old_array);
 		
 		for (var i=0; i<arr.length; i++){
 			$('#company-selectpicker').selectpicker('val', arr);
