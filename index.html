@@ -41,6 +41,32 @@
 				<div class="row no-gutters pt-5 pl-3">
 					<!-- Left column -->
 					<div class="col fixed-left-width pr-3">	
+
+
+						<!-- Company select dropdown-->
+						<div class="pt-5">
+							<h5><i class="bi bi-building pr-2"></i>Company</h5><br>
+							<p class="text-muted"><small>Multiple companies can be selected and compared.</small></p>
+							<select id="company-selectpicker" class="selectpicker" multiple data-actions-box="true" data-selected-text-format="count" data-live-search="true" data-width="85%"></select>
+						</div>
+						
+						<!-- Feature category feature select dropdown-->
+						<div class="pt-5">
+							<h5><i class="bi bi-code-slash pr-2"></i>Feature Category</h5><br>
+							<p class="text-muted"><small>Select a feature category to view.</small></p>
+							<select id="feature-selectpicker" class="selectpicker test" multiple data-actions-box="true" data-selected-text-format="count" data-live-search="false" data-width="85%"></select>
+						</div>
+										
+
+						<!-- ERP select dropdown-->
+						<div class="pt-5">
+							<h5><i class="bi bi-diagram-2 pr-2"></i>ERP System</h5><br>
+							<p class="text-muted"><small>The ERP select will overwrite all previous selections from other drop downs.</small></p>
+							<select id="erp-selectpicker" class="selectpicker" title="No ERP Selected" data-selected-text-format="count" data-width="85%"></select>
+						</div>
+
+
+						<!-- Channel select-->
 						<div>
 							<h5><i class="bi-dash-square pr-2"></i>Channel</h5>
 							<p class="text-muted"><small>Select a Würth company group to compare features.</small></p>
@@ -75,29 +101,7 @@
 								<label class="form-check-label" for="chk6">FI Elektronik</label>
 							</div>
 						</div>
-						<!-- Feature category feature select dropdown-->
-						<div class="pt-5">
-							<h5><i class="bi bi-code-slash pr-2"></i>Feature Category</h5><br>
-							<p class="text-muted"><small>Select a feature category to view.</small></p>
-							<select id="feature-selectpicker" class="selectpicker test" multiple data-actions-box="true" data-selected-text-format="count" data-live-search="false" data-width="85%"></select>
-						</div>
-				
-				
-						<!-- Company select dropdown-->
-						<div class="pt-5">
-							<h5><i class="bi bi-building pr-2"></i>Company</h5><br>
-							<p class="text-muted"><small>Multiple companies can be selected and compared.</small></p>
-							<select id="company-selectpicker" class="selectpicker" multiple data-actions-box="true" data-selected-text-format="count" data-live-search="true" data-width="85%"></select>
-						</div>
-						
 
-						<!-- ERP select dropdown-->
-						<div class="pt-5">
-							<h5><i class="bi bi-diagram-2 pr-2"></i>ERP System</h5><br>
-							<p class="text-muted"><small>The ERP select will overwrite all previous selections from other drop downs.</small></p>
-							<select id="erp-selectpicker" class="selectpicker" title="No ERP Selected" data-selected-text-format="count" data-width="85%"></select>
-						</div>
-						
 
 						<!-- Legend -->
 						<div class="pt-5">
@@ -112,11 +116,13 @@
 							</ul>
 						</div>
 						
+
 						<!-- Reset Button -->
 						<div class="pt-5 pb-3">
 							<button type="button" class="btn btn-outline-danger" id="button-reset">Reset filters</button>
 						</div>												  
 					</div>	
+					
 						<!-- Table generator -->
 						<div class="col-8 pb-5" id="generator-table"></div>
 			</div>
